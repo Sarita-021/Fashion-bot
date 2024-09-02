@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Chatbot</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/static/index.css">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"> -->
+    <script>
+        async function sendMessage() {
+            const userMessage = document.getElementById("message").value;
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userMessage }),
+            });
+            const reply = await response.text();
+            const chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML += `<div class="rsc-ts-user">
+                                    <img class="rsc-ts-image" src="https://cdn-icons-png.flaticon.com/512/3237/3237472.png" alt="avatar" height="40px" width="40px">
+                                    <div class="rsc-ts-bubble"><p>${userMessage}</p></div>
+                                </div>`;
+            chatBox.innerHTML += `<div class="rsc-ts-bot">
+                                    <img class="rsc-ts-image" src="https://miro.medium.com/v2/resize:fit:612/1*C_LFPy6TagD1SEN5SwmVRQ.jpeg" alt="avatar" height="40px" width="40px">
+                                    <div class="rsc-ts-bubble"><div class="chat-response">${reply}</div></div>
+                                </div>`;
+            document.getElementById("message").value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Fashion Chatbot</h1>
+    <div class="rsc">
+        <div class="rsc-container" width="350px" height="520px">
+            <div class="rsc-header">
+                <h2 class="rsc-header-title">Chat</h2>
+            </div>
+            <div class="rsc-content" height="520px" id="chat-box">
+                <div class="rsc-ts-bot">
+                    <img class="rsc-ts-image"
+                        src="https://miro.medium.com/v2/resize:fit:612/1*C_LFPy6TagD1SEN5SwmVRQ.jpeg" alt="avatar"
+                        height="40px" width="40px">
+                    <div class="rsc-ts-bubble">
+                        <p>Hello!! How can I help you today.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="rsc-footer">
+                <input type="text" id="message" class="rsc-input" placeholder="Type the message ...">
+                <button onclick="sendMessage()" class="rsc-submit-button">
+                    <i class="material-icons" style="font-size:30px;color:#471d8a">send</i>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
